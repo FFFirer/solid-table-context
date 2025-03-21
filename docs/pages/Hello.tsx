@@ -73,8 +73,17 @@ export default () => {
     createMultiSelectFeature(createIndexed(datas()))
   );
 
+  const checkSelected = () => {
+    console.log("selected count: ", multiSelect().selected?.().length);
+  };
+
   return (
-    <div class="w-[200px] h-[200px] overflow-auto">
+    <div class="size-full overflow-auto">
+      <div class="mb-2">
+        <button type="button" class="btn btn-primary" onClick={checkSelected}>
+          check
+        </button>
+      </div>
       <Table
         rowClass="hover:bg-base-300"
         class="table table-zebra table-pin-rows table-pin-cols"

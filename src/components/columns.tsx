@@ -82,11 +82,11 @@ export const createMultiSelectFeature = <T extends {} = any>(
   };
 
   const onSelected = (data: T, index: number, checked: boolean) => {
-    if (checkSelected(data, index)) {
-      return;
-    }
-
     if (checked) {
+      if (checkSelected(data, index)) {
+        return;
+      }
+
       setSelected((v) => [...v, createIndexData(data, index)]);
     } else {
       setSelected((v) =>
@@ -113,7 +113,6 @@ export const CheckboxColumn = <T extends {} = any>(props: {
   feature: IMultiSelectFeature<T>;
   class?: string;
 }) => {
-
   const context = useTableRowContext();
 
   return (
