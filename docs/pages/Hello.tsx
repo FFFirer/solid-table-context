@@ -1,6 +1,14 @@
+import {
+  CheckboxColumn,
+  createIndexData,
+  createIndexed,
+  createMultiSelectFeature,
+  IndexColumn,
+} from "@src/components/columns";
 import { Table } from "@src/components/table";
 import { TableColumn } from "@src/components/table-column";
 import { TableColumnDefinition } from "@src/components/types";
+import { TableRow } from "@src/index";
 import { Accessor, createMemo } from "solid-js";
 
 interface DemoData {
@@ -61,13 +69,26 @@ export default () => {
     return cols;
   });
 
+  const multiSelect = createMemo(() =>
+    createMultiSelectFeature(createIndexed(datas()))
+  );
+
   return (
-    <div class="size-full">
-      {/* <Table columns={columns()} datas={datas()} /> */}
-      <Table datas={datas()}>
-        <TableColumn name={"id"} />
-        <TableColumn name={"name"} />
-        <TableColumn name={"deleted"}/>
+    <div class="w-[200px] h-[200px] overflow-auto">
+      <Table
+        rowClass="hover:bg-base-300"
+        class="table table-zebra table-pin-rows table-pin-cols"
+        datas={datas()}
+      >
+        <TableRow>
+          <IndexColumn as={"th"} class="w-[10px] font-bold" />
+          <CheckboxColumn class="checkbox" feature={multiSelect()} />
+          <TableColumn name={"id"} />
+          <TableColumn name={"name"} />
+          <TableColumn name={"deleted"}>
+            {(data) => (data.deleted ? "YES" : "NO")}
+          </TableColumn>
+        </TableRow>
       </Table>
     </div>
   );

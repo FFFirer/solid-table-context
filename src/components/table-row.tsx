@@ -1,25 +1,37 @@
+import { createMemo, mergeProps, ParentProps } from "solid-js";
 import {
-  createMemo,
-  ParentProps,
-} from "solid-js";
-import { TableRowContext, TableRowProps } from "./types";
+  TableRowContext,
+  TableRowContextProps,
+  TableRowProps,
+  useTableRowContext,
+} from "./types";
+import { mergeClass } from "@src/utils";
 
-export const TableRow = (props: ParentProps<TableRowProps>) => {
-  const rowContextValue = createMemo(() => {
-    return {
-      data: props.data,
-      index: props.index,
-      type: props.type,
-    };
+const defaultProps: Partial<TableRowProps> = {
+  activeClass: "active",
+};
+
+export const TableRow = (p: ParentProps<TableRowProps>) => {
+  const props = mergeProps(defaultProps, p);
+
+  const context = useTableRowContext();
+
+  const getActiveClass = () =>
+    props.activeClass && context?.active?.() ? props.activeClass : "";
+
+  const classNames = createMemo(() => {
+    return context?.type === "head"
+      ? mergeClass(props.class, props.headClass, getActiveClass())
+      : mergeClass(props.class, props.headClass, getActiveClass());
   });
 
-  const columns = createMemo(() => props.columns ?? []);
+  const handleClick = (e: MouseEvent) => {
+    props.onClick?.(context as TableRowContextProps);
+  };
 
   return (
-    <tr>
-      <TableRowContext.Provider value={rowContextValue()}>
-        {props.children}
-      </TableRowContext.Provider>
+    <tr class={classNames()} onClick={handleClick}>
+      {props.children}
     </tr>
   );
 };
