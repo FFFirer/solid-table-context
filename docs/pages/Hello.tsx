@@ -91,7 +91,7 @@ export default () => {
       >
         <TableRow>
           <IndexColumn as={"th"} class="w-[10px] font-bold" />
-          <CheckboxColumn class="checkbox" feature={multiSelect()} />
+          <CheckboxColumn class="checkbox" state={multiSelect()} />
           <TableColumn name={"id"} />
           <TableColumn name={"name"} />
           <TableColumn name={"deleted"}>

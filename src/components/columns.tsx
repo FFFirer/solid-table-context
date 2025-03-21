@@ -9,12 +9,9 @@ import {
 import { TableColumn } from "./table-column";
 import {
   IndexColumnProps,
-  IndexData,
   KeySelector,
-  TableProps,
-  useTableRowContext,
 } from "./types";
-import { calcIndex } from "@src/utils";
+import { calcIndex, createIndexed } from "@src/utils";
 
 export const IndexColumn = (props: IndexColumnProps) => {
   const [local, others] = splitProps(props, ["children"]);
@@ -37,16 +34,6 @@ export interface IMultiSelectFeature<T> {
   onSelected?: (data: T, index: number, checked: boolean) => void;
   onSelectedAll?: (checked: boolean) => void;
 }
-
-export const createIndexData = <T extends {}>(data: T, index: number) => {
-  return {
-    index,
-    data,
-  } as IndexData<T>;
-};
-
-export const createIndexed = <T extends {}>(datas: T[]) =>
-  datas.map(createIndexData);
 
 export const createMultiSelectFeature = <T extends {} = any>(
   datas?: T[],
@@ -110,19 +97,17 @@ export const createMultiSelectFeature = <T extends {} = any>(
 };
 
 export const CheckboxColumn = <T extends {} = any>(props: {
-  feature: IMultiSelectFeature<T>;
+  state: IMultiSelectFeature<T>;
   class?: string;
 }) => {
-  const context = useTableRowContext();
-
   return (
     <TableColumn
       header={() => (
         <input
           type="checkbox"
           class={props.class}
-          checked={props.feature.selectedAll?.()}
-          onchange={(e) => props.feature.onSelectedAll?.(e.target.checked)}
+          checked={props.state.selectedAll?.()}
+          onchange={(e) => props.state.onSelectedAll?.(e.target.checked)}
         ></input>
       )}
     >
@@ -130,9 +115,9 @@ export const CheckboxColumn = <T extends {} = any>(props: {
         <input
           type="checkbox"
           class={props.class}
-          checked={props.feature.checkSelected?.(data, index!)}
+          checked={props.state.checkSelected?.(data, index!)}
           onchange={(e) =>
-            props.feature.onSelected?.(data, index, e.target.checked)
+            props.state.onSelected?.(data, index, e.target.checked)
           }
         ></input>
       )}
