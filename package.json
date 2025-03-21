@@ -1,7 +1,21 @@
 {
   "name": "solid-table-context",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
+  "keywords": [
+    "solid",
+    "solid-js",
+    "table",
+    "style-less"
+  ],
+  "author": {
+    "name": "FFFirer",
+    "email": "0sdf0@sina.cn",
+    "url": "https://github.com/FFFirer"
+  },
+  "repository": {
+    "url": "https://github.com/FFFirer/solid-table-context"
+  },
   "type": "module",
   "scripts": {
     "start": "vite",

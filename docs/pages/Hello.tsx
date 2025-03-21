@@ -1,7 +1,5 @@
 import {
   CheckboxColumn,
-  createIndexData,
-  createIndexed,
   createMultiSelectFeature,
   IndexColumn,
 } from "@src/components/columns";
@@ -9,6 +7,7 @@ import { Table } from "@src/components/table";
 import { TableColumn } from "@src/components/table-column";
 import { TableColumnDefinition } from "@src/components/types";
 import { TableRow } from "@src/index";
+import { createIndexed } from "@src/utils";
 import { Accessor, createMemo } from "solid-js";
 
 interface DemoData {
