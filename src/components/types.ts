@@ -45,7 +45,7 @@ export interface TableRowContextProviderProps extends TableRowContextProps {
 }
 
 export type KeyValueCollection = { [key: string]: any } & {
-    [RowContextStateKeys.Key]?: string
+    Key?: string
 }
 
 export interface TableRowContextProps {

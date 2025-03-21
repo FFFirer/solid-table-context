@@ -11,7 +11,7 @@ import {
   IndexColumnProps,
   KeySelector,
 } from "./types";
-import { calcIndex, createIndexed } from "@src/utils";
+import { calcIndex, createIndexData, createIndexed } from "@src/utils";
 
 export const IndexColumn = (props: IndexColumnProps) => {
   const [local, others] = splitProps(props, ["children"]);

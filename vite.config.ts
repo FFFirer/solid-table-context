@@ -5,7 +5,7 @@ import { resolve } from 'path';
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
-  plugins: [tailwindcss(), solidPlugin(), dts({ include: ['lib'] })],
+  plugins: [tailwindcss(), solidPlugin(), dts({ include: ['src'] })],
   server: {
     port: 3000,
   },
@@ -14,6 +14,7 @@ export default defineConfig({
     lib: {
       name: "SolidTableContext",
       entry: resolve(__dirname, "./src/index.tsx"),
+      formats: ["es"],
       fileName: "index"
     },
     copyPublicDir: false,
