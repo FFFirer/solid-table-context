@@ -28,13 +28,30 @@ export const TableColumn = <T extends {} = any>(props: TableColumnProps<T>) => {
   const cellComponent = createMemo(() => props.as ?? "td");
 
   const children = createMemo(() => {
-    return rowContext?.type === "head"
-      ? typeof props.header === "function"
-        ? props.header?.(props)
-        : props.header ?? props.name
-      : props.children === undefined
-      ? rowContext?.data?.[props.name]
-      : props.children?.(rowContext?.data, props, rowContext?.index!);
+    switch (rowContext?.type) {
+      case "head":
+        return typeof props.header === "function"
+          ? props.header?.(props)
+          : props.header ?? props.name;
+      case "cell":
+        return props.children === undefined
+          ? rowContext?.data?.[props.name]
+          : props.children?.(rowContext?.data, props, rowContext?.index!);
+      case "foot":
+        return typeof props.footer === "function"
+          ? props.footer?.([], rowContext.data)
+          : props.footer;
+      default:
+        return undefined;
+    }
+
+    // return rowContext?.type === "head"
+    //   ? typeof props.header === "function"
+    //     ? props.header?.(props)
+    //     : props.header ?? props.name
+    //   : props.children === undefined
+    //   ? rowContext?.data?.[props.name]
+    //   : props.children?.(rowContext?.data, props, rowContext?.index!);
   });
 
   const classNames = createMemo(() => {

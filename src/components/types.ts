@@ -2,7 +2,7 @@ import { Accessor, createContext, createMemo, JSXElement, ParentProps, Setter, u
 import { SetStoreFunction } from "solid-js/store";
 
 export type TableColumnType = 'index' | 'selection' | undefined
-export type TableRowType = 'head' | 'cell' | 'foot'
+export type TableRowType = 'head' | 'cell' | 'foot' | 'empty'
 // export type ClassListType = string | { [key: string]: boolean } | ClassListType[]
 export type ClassListType = string
 
@@ -30,14 +30,12 @@ export interface IndexColumnProps extends Omit<TableColumnProps<any>, 'type' | '
 }
 
 export interface TableRowProps {
-    // data?: any;
-    // index?: number;
-    // type?: TableRowType
     onClick?: (ctx: TableRowContextProps) => void
     class?: string
     headClass?: string
     cellClass?: string
     activeClass?: string
+    emptyContent?: JSXElement
 }
 
 export interface TableRowContextProviderProps extends TableRowContextProps {
@@ -78,6 +76,8 @@ export interface TableProps<T extends {}> {
     headRowClass?: string
     key?: KeySelector<T>
     features?: NamedFeature[]
+    showFooter?: boolean
+    showCaption?: boolean
 }
 
 export const TableRowContext = createContext<TableRowContextProps>();

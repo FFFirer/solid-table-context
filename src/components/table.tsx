@@ -20,31 +20,44 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
     }, {} as { [key: string]: any })
   );
 
+  const hasDatas = createMemo(
+    () => datas() !== undefined && datas().length > 0
+  );
+
   return (
     <TableFeatureContextProvider features={features()}>
       <table class={props.class}>
         <thead>
-          <TableRowContextProvider type="head">
+          <TableRowContextProvider type="head" index={-1}>
             {props.children}
           </TableRowContextProvider>
         </thead>
         <tbody>
-          <Index each={datas()}>
-            {(data, rowIndex) => (
-              <TableRowContextProvider
-                key={calcIndex(data(), rowIndex, props.key)}
-                index={rowIndex}
-                data={data()}
-                type="cell"
-              >
+          <Show
+            when={hasDatas()}
+            fallback={
+              <TableRowContextProvider type="empty" index={-2}>
                 {props.children}
               </TableRowContextProvider>
-            )}
-          </Index>
+            }
+          >
+            <Index each={datas()}>
+              {(data, rowIndex) => (
+                <TableRowContextProvider
+                  key={calcIndex(data(), rowIndex, props.key)}
+                  index={rowIndex}
+                  data={data()}
+                  type="cell"
+                >
+                  {props.children}
+                </TableRowContextProvider>
+              )}
+            </Index>
+          </Show>
         </tbody>
-        <Show when={false}>
+        <Show when={datas.length > 0 && props.showFooter}>
           <tfoot>
-            <TableRowContextProvider type="foot">
+            <TableRowContextProvider type="foot" index={-3}>
               {props.children}
             </TableRowContextProvider>
           </tfoot>
