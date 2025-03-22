@@ -1,6 +1,6 @@
 import { createMemo, Index, ParentProps, Show } from "solid-js";
 import { TableRow } from "./table-row";
-import { TableProps } from "./types";
+import { TableProps, TableRowProps } from "./types";
 import {
   TableFeatureContextProvider,
   TableRowContextProvider,
@@ -32,7 +32,9 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
       <table class={props.class}>
         <thead>
           <TableRowContextProvider type="head" index={-1}>
-            {props.children}
+            <Dynamic component={tableRowTemplate()} {...props.rowTemplateProps}>
+              {props.children}
+            </Dynamic>
           </TableRowContextProvider>
         </thead>
         <tbody>
@@ -43,6 +45,7 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
                 <Dynamic
                   component={tableRowTemplate()}
                   emptyContent={props.emptyContent}
+                  {...props.rowTemplateProps}
                 >
                   {props.children}
                 </Dynamic>
@@ -57,7 +60,10 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
                   data={data()}
                   type="cell"
                 >
-                  <Dynamic component={tableRowTemplate()}>
+                  <Dynamic
+                    component={tableRowTemplate()}
+                    {...props.rowTemplateProps}
+                  >
                     {props.children}
                   </Dynamic>
                 </TableRowContextProvider>
@@ -68,7 +74,12 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
         <Show when={datas.length > 0 && props.showFooter}>
           <tfoot>
             <TableRowContextProvider type="foot" index={-3}>
-              <Dynamic component={tableRowTemplate()}>{props.children}</Dynamic>
+              <Dynamic
+                component={tableRowTemplate()}
+                {...props.rowTemplateProps}
+              >
+                {props.children}
+              </Dynamic>
             </TableRowContextProvider>
           </tfoot>
         </Show>

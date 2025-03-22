@@ -20,7 +20,7 @@ export const IndexColumn = (props: IndexColumnProps) => {
       local.children?.(index) ?? (index || 0) + 1,
   });
 
-  return <TableColumn {...merged} />;
+  return <TableColumn {...merged} header={' '} />;
 };
 
 export interface IMultiSelectFeature<T> {
@@ -101,7 +101,7 @@ export const CheckboxColumn = <T extends {} = any>(
     state: IMultiSelectFeature<T>;
     inputClass?: string;
     inputProps?: JSX.InputHTMLAttributes<HTMLInputElement>;
-  } & Pick<TableColumnProps<T>, "class" | "cellClass" | "headerClass">
+  } & Pick<TableColumnProps<T>, "class" | "cellClass" | "headerClass" | "as">
 ) => {
   const [local, others] = splitProps(props, [
     "state",

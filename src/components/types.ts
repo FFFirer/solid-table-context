@@ -1,4 +1,4 @@
-import { Accessor, Component, createContext, createMemo, JSXElement, ParentComponent, ParentProps, Setter, useContext, ValidComponent } from "solid-js";
+import { Accessor, Component, ComponentProps, createContext, createMemo, JSXElement, ParentComponent, ParentProps, Setter, useContext, ValidComponent } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 
 export type TableColumnType = 'index' | 'selection' | undefined
@@ -74,13 +74,12 @@ export interface TableProps<T extends {}> {
     datas?: T[]
     columns?: TableColumnDefinition<T>[]
     class?: string
-    rowClass?: string
-    headRowClass?: string
     key?: KeySelector<T>
     features?: NamedFeature[]
     showFooter?: boolean
     showCaption?: boolean
     rowTemplate?: TableRowTemplate
+    rowTemplateProps?: Omit<ComponentProps<TableRowTemplate>, 'children' | 'emptyContent'>
     emptyContent?: JSXElement
 }
 

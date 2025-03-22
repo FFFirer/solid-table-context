@@ -77,29 +77,35 @@ export default () => {
   };
 
   return (
-    <div class="size-full overflow-auto">
+    <div class="flex flex-col">
       <div class="mb-2">
         <button type="button" class="btn btn-primary" onClick={checkSelected}>
           check
         </button>
       </div>
-      <Table
-        rowClass="hover:bg-base-300"
-        class="table table-zebra table-pin-rows table-pin-cols"
-        datas={datas()}
-      >
-        <IndexColumn as={"th"} class="w-[10px] font-bold" />
-        <CheckboxColumn
-          class="w-[1rem]"
-          inputClass="checkbox"
-          state={multiSelect()}
-        />
-        <TableColumn name={"id"} />
-        <TableColumn name={"name"} />
-        <TableColumn name={"deleted"}>
-          {(data) => (data.deleted ? "YES" : "NO")}
-        </TableColumn>
-      </Table>
+
+      <div class="grow shrink-0 w-[300px] h-[200px] size-full overflow-auto">
+        <Table
+          class="table table-pin-rows table-pin-cols"
+          datas={datas()}
+          rowTemplateProps={{
+            class: "hover:bg-base-300",
+          }}
+        >
+          <CheckboxColumn
+            as="th"
+            class="w-[1rem]"
+            inputClass="checkbox"
+            state={multiSelect()}
+          />
+          <IndexColumn class="w-[10px]" />
+          <TableColumn name={"id"} />
+          <TableColumn name={"name"} />
+          <TableColumn name={"deleted"}>
+            {(data) => (data.deleted ? "YES" : "NO")}
+          </TableColumn>
+        </Table>
+      </div>
     </div>
   );
 };
