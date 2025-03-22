@@ -90,16 +90,15 @@ export default () => {
         rowClass="hover:bg-base-300"
         class="table table-zebra table-pin-rows table-pin-cols"
         datas={datas()}
+        rowTemplate={TableRow}
       >
-        <TableRow>
-          <IndexColumn as={"th"} class="w-[10px] font-bold" />
-          <CheckboxColumn class="checkbox" state={multiSelect()} />
-          <TableColumn name={"id"} />
-          <TableColumn name={"name"} />
-          <TableColumn name={"deleted"}>
-            {(data) => (data.deleted ? "YES" : "NO")}
-          </TableColumn>
-        </TableRow>
+        <IndexColumn as={"th"} class="w-[10px] font-bold" />
+        <CheckboxColumn class="checkbox" state={multiSelect()} />
+        <TableColumn name={"id"} />
+        <TableColumn name={"name"} />
+        <TableColumn name={"deleted"}>
+          {(data) => (data.deleted ? "YES" : "NO")}
+        </TableColumn>
       </Table>
     </div>
   );
