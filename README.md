@@ -91,6 +91,9 @@ export default () => {
         class="table table-zebra table-pin-rows table-pin-cols"
         datas={datas()}
         rowTemplate={TableRow}
+        emptyContent={
+          <div class="size-full flex items-center justify-center">Empty</div>
+        }
       >
         <IndexColumn as={"th"} class="w-[10px] font-bold" />
         <CheckboxColumn class="checkbox" state={multiSelect()} />
