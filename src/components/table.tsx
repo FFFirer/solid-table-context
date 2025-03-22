@@ -6,6 +6,7 @@ import {
   TableRowContextProvider,
 } from "./providers";
 import { calcIndex } from "@src/utils";
+import { Dynamic } from "solid-js/web";
 
 export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
   const datas = createMemo(() => {
@@ -24,6 +25,8 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
     () => datas() !== undefined && datas().length > 0
   );
 
+  const tableRowTemplate = createMemo(() => props.rowTemplate ?? TableRow);
+
   return (
     <TableFeatureContextProvider features={features()}>
       <table class={props.class}>
@@ -37,7 +40,12 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
             when={hasDatas()}
             fallback={
               <TableRowContextProvider type="empty" index={-2}>
-                {props.children}
+                <Dynamic
+                  component={tableRowTemplate()}
+                  emptyContent={props.emptyContent}
+                >
+                  {props.children}
+                </Dynamic>
               </TableRowContextProvider>
             }
           >
@@ -49,7 +57,9 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
                   data={data()}
                   type="cell"
                 >
-                  {props.children}
+                  <Dynamic component={tableRowTemplate()}>
+                    {props.children}
+                  </Dynamic>
                 </TableRowContextProvider>
               )}
             </Index>
@@ -58,7 +68,7 @@ export const Table = <T extends {}>(props: ParentProps<TableProps<T>>) => {
         <Show when={datas.length > 0 && props.showFooter}>
           <tfoot>
             <TableRowContextProvider type="foot" index={-3}>
-              {props.children}
+              <Dynamic component={tableRowTemplate()}>{props.children}</Dynamic>
             </TableRowContextProvider>
           </tfoot>
         </Show>

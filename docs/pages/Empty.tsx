@@ -17,20 +17,15 @@ export default () => {
         rowClass="hover:bg-base-300"
         class="h-[200px] table table-zebra table-pin-rows table-pin-cols grow"
         datas={[]}
+        emptyContent={<div class="size-full flex items-center justify-center">Empty</div>}
       >
-        <TableRow
-          emptyContent={
-            <div class="bg-base-300 size-full flex items-center justify-center">Empty</div>
-          }
-        >
-          <IndexColumn as={"th"} class="w-[10px] font-bold" />
-          <CheckboxColumn class="checkbox" state={selectState()} />
-          <TableColumn name={"id"} />
-          <TableColumn name={"name"} />
-          <TableColumn name={"deleted"}>
-            {(data) => (data.deleted ? "YES" : "NO")}
-          </TableColumn>
-        </TableRow>
+        <IndexColumn as={"th"} class="w-[10px] font-bold" />
+        <CheckboxColumn class="checkbox" state={selectState()} />
+        <TableColumn name={"id"} />
+        <TableColumn name={"name"} />
+        <TableColumn name={"deleted"}>
+          {(data) => (data.deleted ? "YES" : "NO")}
+        </TableColumn>
       </Table>
     </div>
   );

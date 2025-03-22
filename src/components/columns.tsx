@@ -2,15 +2,13 @@ import {
   Accessor,
   createMemo,
   createSignal,
+  JSX,
   mergeProps,
   Setter,
   splitProps,
 } from "solid-js";
 import { TableColumn } from "./table-column";
-import {
-  IndexColumnProps,
-  KeySelector,
-} from "./types";
+import { IndexColumnProps, KeySelector, TableColumnProps } from "./types";
 import { calcIndex, createIndexData, createIndexed } from "@src/utils";
 
 export const IndexColumn = (props: IndexColumnProps) => {
@@ -84,7 +82,9 @@ export const createMultiSelectFeature = <T extends {} = any>(
     }
   };
 
-  const selectedAll = createMemo(() => datas?.length === selected().length);
+  const selectedAll = createMemo(
+    () => datas?.length === selected().length && selected().length > 0
+  );
 
   return {
     selected,
@@ -96,29 +96,42 @@ export const createMultiSelectFeature = <T extends {} = any>(
   } as IMultiSelectFeature<T>;
 };
 
-export const CheckboxColumn = <T extends {} = any>(props: {
-  state: IMultiSelectFeature<T>;
-  class?: string;
-}) => {
+export const CheckboxColumn = <T extends {} = any>(
+  props: {
+    state: IMultiSelectFeature<T>;
+    inputClass?: string;
+    inputProps?: JSX.InputHTMLAttributes<HTMLInputElement>;
+  } & Pick<TableColumnProps<T>, "class" | "cellClass" | "headerClass">
+) => {
+  const [local, others] = splitProps(props, [
+    "state",
+    "inputClass",
+    "inputProps",
+  ]);
+
   return (
     <TableColumn
       header={() => (
         <input
+          title="Select All"
           type="checkbox"
-          class={props.class}
-          checked={props.state.selectedAll?.()}
-          onchange={(e) => props.state.onSelectedAll?.(e.target.checked)}
+          class={local.inputClass}
+          checked={local.state.selectedAll?.()}
+          onchange={(e) => local.state.onSelectedAll?.(e.target.checked)}
+          {...local.inputProps}
         ></input>
       )}
+      {...others}
     >
       {(data, col, index) => (
         <input
           type="checkbox"
-          class={props.class}
-          checked={props.state.checkSelected?.(data, index!)}
+          class={local.inputClass}
+          checked={local.state.checkSelected?.(data, index!)}
           onchange={(e) =>
-            props.state.onSelected?.(data, index, e.target.checked)
+            local.state.onSelected?.(data, index, e.target.checked)
           }
+          {...local.inputProps}
         ></input>
       )}
     </TableColumn>

@@ -7,6 +7,7 @@ import {
   Switch,
 } from "solid-js";
 import {
+  TableRowTemplate,
   TableRowContext,
   TableRowContextProps,
   TableRowProps,
@@ -26,10 +27,11 @@ const EmptyContent = (props: ParentProps<{ cols: number }>) => {
   );
 };
 
-export const TableRow = (p: ParentProps<TableRowProps>) => {
+export const TableRow : TableRowTemplate = (p) => {
   const props = mergeProps(defaultProps, p);
 
   const context = useTableRowContext();
+  
   const colspan = createMemo(() => {
     if (Array.isArray(props.children)) {
       return props.children.length;

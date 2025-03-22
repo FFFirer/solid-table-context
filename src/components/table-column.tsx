@@ -1,5 +1,6 @@
 import {
   children,
+  ComponentProps,
   createMemo,
   JSXElement,
   mergeProps,
@@ -10,6 +11,7 @@ import {
 import {
   IndexColumnProps,
   TableColumnProps,
+  TableColumnType,
   useTableRowContext,
 } from "./types";
 import { Dynamic } from "solid-js/web";
